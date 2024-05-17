@@ -1,5 +1,11 @@
 pipeline {
-	
+	//                                             #### DESCRIPCIÓN GENERAL ####
+	// Este es un Front Angular, lo vamos a compilar, ejecutar pruebas y en caso de ser exito, se desplegará en AWS usando S3, CloudFront como CDN
+	// Finalmente guardamos el artefacto para auditoría o rollbacks, y notificamos a teams el resultado
+
+
+	// Para que se ejecute este Pipeline, el desarrollador debe enviar un PR al Team Leader o supervisor, cuando este es solicitado se ejecuta 
+	// y genera informes dentro del PR para que el supervisor apruebe o no el cambio al ambiente -dev, qa, prd-
     agent any
 
 
