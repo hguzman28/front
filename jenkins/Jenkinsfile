@@ -1,46 +1,71 @@
-pipeline 
-{
-	agent any
+pipeline {
 	
-	tools {
-		terraform 'terraform1.3.6'
-    nodejs 'Node16.16'
-	}
-	
-	
-	stages {
+    agent any
 
 
-      stage ('Build Project') {
-        
-        steps{
-
-        sh 'npm install'
-        sh 'ng build'
-        sh 'ls'
-        sh 'ls dist/*'  
-        sh 'cp -r dist/proyecto-servicio/* jenkins/IaC/'
-        sh 'ls jenkins/IaC/'  
-        }  
-
-
-      }  
+    // Para este CI de angular, vamos a requerir Node y terraform, previamente debe estar habilitada en "Global Tool Configuration", 
+	// la versión que requiera el proyecto, y siempre usará esa versión.
+    tools {
+        terraform 'terraform1.3.6'
+        nodejs 'Node16.16'
+    }
     
-	  stage ('Deploy s3 cloudfront web static'){
-	         steps {
-		    withEnv (["AWS_ACCESS_KEY_ID=${env.AWS_ACCESS_KEY_ID}","AWS_SECRET_ACCESS_KEY=${env.AWS_SECRET_ACCESS_KEY}","AWS_DEFAULT_REGION=${env.AWS_DEFAULT_REGION}"]){ 
-		        sh 'terraform -chdir=jenkins/IaC init'
-			    sh 'terraform -chdir=jenkins/IaC apply -auto-approve'
-		    
-		    }		
+    stages {
 
-	        }
-		}
-		
+        // Compilamos el proyecto Angular y ubicamos los archivos estaticos en un carpeta especifica para su posterior uso
+        stage('Build') {
+            steps {
+                sh 'npm install'
+                sh 'ng build'
+                sh 'cp -r dist/proyecto-servicio/* jenkins/CD/'
+                sh 'zip -r app_${env.BRANCH_NAME}_${env.BUILD_NUMBER}.zip jenkins/CD/*'
+            }
+        }
 
+        // Ejecución de pruebas unitarias, los reportes de cobertura de las pruebas también se genera en sonarQube
+        stage('Test') {
+            steps {
+                sh 'ng test --watch=false --code-coverage'
+                script {
+                    def scannerHome = tool 'SonarQubeScanner'
+                    withSonarQubeEnv('SonarCloud') {
+                        sh "${scannerHome}/bin/sonar-scanner"
+                    }
+                }
+            }
+        }
 
+        // Aprovicionamos y configuramos la insfraestructura como codigo en AWS
+        stage('Deploy AWS - s3 cloudfront web static') {
+            steps {
+                withEnv(["AWS_ACCESS_KEY_ID=${env.AWS_ACCESS_KEY_ID}", "AWS_SECRET_ACCESS_KEY=${env.AWS_SECRET_ACCESS_KEY}", "AWS_DEFAULT_REGION=${env.AWS_DEFAULT_REGION}"]) { 
+                    sh 'terraform -chdir=jenkins/CD init'
+                    sh 'terraform -chdir=jenkins/CD apply -auto-approve'
+                }
+            }
+        }
+    }
 
-    }		
+    post {
+        // Registramos el artefacto en caso de exito para auditoría o Rollbacks de la verisión
+        always {
+            archiveArtifacts artifacts: 'app_${env.BRANCH_NAME}_${env.BUILD_NUMBER}.zip', onlyIfSuccessful: true
+        }
 
-
+        // Notificación a teams el resultado, exitoso o fallido
+        success {
+            office365ConnectorSend(
+                webhookUrl: 'https://organizacionPajarito.webhook.office.com/webhookb2/cccc167/JenkinsCI/ccc',
+                message: 'Application deployment successful',
+                status: 'Success'
+            )
+        }
+        failure {
+            office365ConnectorSend(
+                webhookUrl: 'https://organizacionPajarito.webhook.office.com/webhookb2/cccc167/JenkinsCI/ccc',
+                message: 'Application deployment failed',
+                status: 'Failure'
+            )
+        }
+    }
 }
