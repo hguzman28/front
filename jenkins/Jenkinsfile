@@ -1,0 +1,46 @@
+pipeline 
+{
+	agent any
+	
+	tools {
+		terraform 'terraform1.3.6'
+    nodejs 'Node16.16'
+	}
+	
+	
+	stages {
+
+
+      stage ('Build Project') {
+        
+        steps{
+
+        sh 'npm install'
+        sh 'ng build'
+        sh 'ls'
+        sh 'ls dist/*'  
+        sh 'cp -r dist/proyecto-servicio/* jenkins/IaC/'
+        sh 'ls jenkins/IaC/'  
+        }  
+
+
+      }  
+    
+	  stage ('Deploy s3 cloudfront web static'){
+	         steps {
+		    withEnv (["AWS_ACCESS_KEY_ID=${env.AWS_ACCESS_KEY_ID}","AWS_SECRET_ACCESS_KEY=${env.AWS_SECRET_ACCESS_KEY}","AWS_DEFAULT_REGION=${env.AWS_DEFAULT_REGION}"]){ 
+		        sh 'terraform -chdir=jenkins/IaC init'
+			    sh 'terraform -chdir=jenkins/IaC apply -auto-approve'
+		    
+		    }		
+
+	        }
+		}
+		
+
+
+
+    }		
+
+
+}

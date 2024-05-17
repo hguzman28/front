@@ -1,0 +1,133 @@
+<div *ngIf="display=='formulario'">
+    <div class="row align-items-center justify-content-center mt-5">
+        <!-- <div class="container margin text-center"><img src="/assets/img/Logo-Credijamar-Vertical.svg" alt="Logo_sorteo"
+                class="mb-1 img-fluid"></div> -->
+
+
+        <div class="text-1">
+            <div class="col-sm-10 col-md-7 col-lg-7">
+                <!--<h3 style="text-align: center;">¡ {{nombre}} !</h3> -->
+            </div>
+        </div>
+        <div class="row align-items-center justify-content-center mt-2 mb-2">
+            <div class="col-sm-10 col-md-7 col-lg-7"><img src="/assets/banner_sorteo.png" class="mb-1 img-fluid"></div>
+        </div>
+        <div class="text-1">
+            <div class="col-sm-10 col-md-7 col-lg-7">
+                <p style="text-align: center; ">Ingresa tus datos para descubrir si eres un ganador</p>
+            </div>
+        </div>
+
+
+        <div class="row align-items-center justify-content-center">
+            <div class="col-sm-10 col-md-7 col-lg-7">
+
+                <form [formGroup]="clientForm" class="align-items-center center_div ng-untouched ng-pristine ng-invalid"
+                    name="359534220" data-form-tracking="true">
+
+
+                    <div class="form-group">
+                        <label>Nombre completo</label>
+                        <input formControlName="name" id="name" type="text" placeholder="Nombre Completo"
+                            class="form-control ng-untouched ng-pristine" data-field-viewed="true">
+                    </div>
+
+
+                    <div class="form-group"><label> Tipo de Documento
+                        </label><select formControlName="tipo" id="tipo" placeholder="Ej: Ej: Cedula de ciudadania"
+                            class="form-control form-select ng-untouched ng-pristine ng-valid" data-field-viewed="true">
+                            <option value="CC" class="ng-star-inserted"> CEDULA DE CIUDADANIA
+                            </option>
+                            <option value="21" class="ng-star-inserted"> TARJETA DE EXTRANJERIA
+                            </option>
+                            <option value="22" class="ng-star-inserted"> CEDULA DE EXTRANJERIA
+                            </option>
+                            <option value="41" class="ng-star-inserted"> PASAPORTE </option>
+                            <option value="NT" class="ng-star-inserted"> NIT </option>
+                        </select></div>
+
+
+                    <div class="form-group">
+                        <label> Número de Documento </label>
+                        <input id="cedula" name="cedula" formControlName="identification" type="text"
+                            placeholder="Cedula" class="form-control ng-untouched ng-pristine" data-field-viewed="true">
+                        <!---->
+                    </div>
+
+
+                    <div class="form-group"><label> Correo Electrónico
+                        </label><input formControlName="email" id="email" type="text" placeholder="Correo"
+                            class="form-control ng-untouched ng-pristine" data-field-viewed="true"
+                            (blur)="emailFocus = false"><!----><!---->
+                    </div>
+                    <div *ngIf=" f.email.touched && !emailFocus">
+                        <div *ngIf="f.email.errors?.email" class="alert alert-danger">
+                            El formato del correo electrónico no es válido.
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group"><label> Celular </label><input formControlName="cellphone" id="cellphone"
+                            type="text" placeholder="Celular" class="form-control ng-untouched ng-pristine"
+                            data-field-viewed="true"><!---->
+                    </div>
+                    <div *ngIf="clientForm.get('cellphone')?.touched ">
+                        <div *ngIf="clientForm.get('cellphone')?.hasError('pattern') " class="alert alert-danger">
+                            El Numero de celular no es válido.
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <label> ¿Cómo se enteró del evento?
+                        </label><select formControlName="canal" id="canales"
+                            class="form-control form-select ng-untouched ng-pristine ng-valid" data-field-viewed="true">
+                            <option *ngFor="let causal of causales" value="{{causal.nombre}}">{{causal.nombre}}</option>
+                            <!-- <option value="21" class="ng-star-inserted"> Volante
+                            </option>
+                            <option value="22" class="ng-star-inserted"> SMS
+                            </option>
+                            <option value="41" class="ng-star-inserted"> Correo Electronico </option>
+                            <option value="CC" class="ng-star-inserted"> En proyecto Jamar
+                            </option> -->
+                        </select>
+                    </div>
+
+                    <ul class="listaterm">
+                        <li>
+                            <input type="checkbox" value="checktc" formControlName="checktc" id="checktc" name="checktc"
+                                class="ng-untouched ng-pristine ng-invalid" data-field-viewed="true">
+                            <div>Términos y Condiciones</div>
+                        </li>
+                        <li>
+                            <input type="checkbox" value="huey" formControlName="checkoat" id="checkoat" name="checkoat"
+                                class="ng-untouched ng-pristine ng-invalid" data-field-viewed="true">
+                            <div>Política de Tratamiento de Datos</div>
+                        </li>
+                        <!-- <li>
+                            <input type="checkbox" value="huey" formControlName="checkcentral" id="checkcentral"
+                                name="checkcentral" class="ng-untouched ng-pristine ng-invalid"
+                                data-field-viewed=" true">
+                            <div> Consulta a Centrales de Riesgo </div>
+                        </li> -->
+                    </ul>
+                    <div><button type="submit" id="bnNext" class="btn btn-primary w-100 mb-4" data-field-viewed="true"
+                            [disabled]="clientForm.invalid" (click)="save_id()">
+                            PRUEBA TU SUERTE
+                        </button></div>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="display=='SORTEO_NO_ENCONTRADO' || display=='SORTEO_NO_INICIADO'" class="no_disponible">
+
+</div>
+<div *ngIf="display=='SORTEO_FINALIZADO'" class="sorteo_finalizado">
+</div>
+<app-scanner (display)="cambio_ubi($event)" *ngIf="display=='scanner'"></app-scanner>
+<app-servicio *ngIf="display=='servicio'"></app-servicio>

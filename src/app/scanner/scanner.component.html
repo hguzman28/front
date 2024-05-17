@@ -1,0 +1,41 @@
+<div class="row align-items-center justify-content-center mt-2 mb-2">
+    <div class="container margin text-center no-padding"><img src="/assets/banner_sorteo.png" class="mb-1 img-fluid">
+    </div>
+</div>
+<div class="row align-items-center justify-content-center mt-2 mb-2">
+    <div class="container margin text-center no-padding">
+        <h3>El juego continua!</h3>
+        <p>Encuentra y escanea el proximo QR</p>
+    </div>
+</div>
+<div class="row align-items-center justify-content-center mt-2 mb-2">
+    <div class="container margin text-center no-padding">
+        <button class="btn btn-danger" (click)="change_camera()"> Cambiar camara </button>
+    </div>
+</div>
+<div class="row align-items-center justify-content-center mt-2 mb-2">
+    <div class="container margin text-center no-padding">
+        <zxing-scanner style="width: 100%;" (camerasFound)="camerasFoundHandler($event)"
+            [device]="cameras[option_camera]" [enable]="scannerEnabled"
+            (scanSuccess)="scanSuccessHandler($event)"></zxing-scanner>
+    </div>
+</div>
+<!-- <div class="row align-items-center justify-content-center mt-2 mb-2">
+    <div class="container margin text-center no-padding">
+        QR invalido
+        <button class="btn btn-danger" (click)="clear_cameras()"> Activar escaner {{scannerEnabled}}</button>
+    </div>
+</div> -->
+
+<!-- <ngx-scanner-qrcode #action="scanner" (onChange)="readCode()"></ngx-scanner-qrcode> -->
+<!-- data  -->
+<!-- <span>{{ action.data.value | json }}</span>value -->
+<!-- <br>
+<span>{{ action.data | async | json }}</span>async -->
+<!-- <br> -->
+
+<!-- Loading -->
+<!-- <p *ngIf="action.isLoading">⌛ Loading...</p> -->
+
+<!-- start -->
+<!-- <button (click)="action.isStart ? action.stop() : action.start()">{{action.isStart ? 'Stop' : 'Start'}}</button> -->

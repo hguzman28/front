@@ -1,0 +1,67 @@
+.text-1 {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: justify;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+    display: grid;
+    grid-row: 1;
+
+}
+
+.form-label {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    line-height: 17px;
+}
+
+.input {
+    display: inline-block;
+    line-height: 17px;
+
+}
+
+.btn {
+    align-items: center;
+    align-self: center;
+    align-content: center;
+}
+
+.listaterm {
+    text-decoration: underline;
+    list-style-type: none;
+}
+
+li {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.no_disponible {
+    background-image: url('/assets/sorteo_no_disponible.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+}
+
+.sorteo_finalizado {
+    background-image: url('/assets/sorteo_finalizado.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+}

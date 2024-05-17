@@ -1,0 +1,140 @@
+<div class="container" *ngIf="!loader">
+  <div class="row justify-content-center mt-5">
+    <img class="logo" src="assets/img/logo-jamar.svg">
+  </div>
+  <div class="row justify-content-center ">
+    <p class="text-center title-op">Orden de pedido</p>
+    <h2 class="text-center op"> #{{info_op.referencia}}</h2>
+  </div>
+
+  <div class="row mt-4">
+    <p class="text-14">Este producto que has seleccionado para comprar es genial, estas a un paso.</p>
+
+    <mat-accordion class="accordion-product" multi>
+      <mat-expansion-panel class="panel-product">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Ver productos
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="row product" *ngFor="let producto of info_op.productos">
+          <div class="col-4">
+            <img class="product-image mb-2" [src]="producto.img ? producto.img: 'assets/img/product-not-found.jpg'">
+          </div>
+          <div class="col-8">
+            <p class="product-name">{{producto.nombre}}</p>
+            <div class="row justify-content-end">
+              <div class="col-auto">
+                <p class="price-product-title">Precio lista</p>
+                <p class="price-product-title">Precio oferta</p>
+              </div>
+              <div class="col-auto text-end">
+                <p class="price-product-lista">${{(producto.precio_lista) | number}}</p>
+                <p class="price-product-oferta">${{(producto.precio_oferta) | number}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <p class="text-14 mt-3">Solo tienes que proceder a realizar el pago y listo, nosotros nos encargamos de llevártelo
+      a tu casa. Solo es un clic para ir a pagar.</p>
+  </div>
+
+  <div class="row mt-4">
+    <p class="title-resumen">Resumen de tu compra</p>
+    <div>
+      <hr>
+    </div>
+    <div class="row mx-0 my-1 px-0" *ngFor="let producto of info_op.productos">
+      <div class="col-6">
+        {{producto.nombre}}
+      </div>
+      <div class="col-3">
+        {{producto.cantidad}} {{producto.cantidad > 1 ? 'articulos' : 'articulo'}}
+      </div>
+      <div class="col-3 text-end">
+        ${{(producto.precio_oferta * producto.cantidad) | number}}
+      </div>
+    </div>
+
+    <div>
+      <hr>
+    </div>
+
+    <div class="row justify-content-end mx-0 px-0" *ngFor="let service of info_op.services">
+      <div class="col-9 text-end">
+        <p class="price-total-title">{{service.cod == '7' ? 'Transporte' : service.cod == '10' ? 'Garantía extendida' : 'Otros servicios'}}</p>
+      </div>
+      <div class="col-3 text-end">
+        <p class="price-transporte">${{service.precio_oferta | number}}</p>
+      </div>
+    </div>
+
+    <div class="row justify-content-end mx-0 px-0">
+      <div class="col-9 text-end">
+        <p class="price-total-title">Total a pagar</p>
+      </div>
+      <div class="col-3 text-end">
+        <p class="price-total">${{info_op.valor | number}}</p>
+      </div>
+    </div>
+  </div>
+
+  <form class="formulario" id="form" [action]="info_checkout.action" method="post">
+    <input name="merchantId" id="merchantId" type="hidden" [value]="info_checkout.merchantId">
+    <input name="ApiKey" id="ApiKey" type="hidden" [value]="info_checkout.apiKey">
+    <input name="accountId" id="accountId" type="hidden" [value]="info_checkout.accountId">
+    <input name="description" type="hidden" value="Compra realizada en Muebles Jamar">
+    <input name="referenceCode" id="referenceCode" type="hidden" [value]="info_op.referencia">
+    <input name="amount" id="amount" type="hidden" [value]="info_op.valor">
+    <input name="tax" type="hidden" value="0">
+    <input name="taxReturnBase" type="hidden" value="0">
+    <input name="currency" type="hidden" value="COP">
+    <input name="signature" id="signature" type="hidden" [value]="info_op.signature">
+    <input name="test" id="test" type="hidden" [value]="info_checkout.test">
+    <input name="buyerEmail" id="buyerEmail" type="hidden" [value]="info_op.email">
+    <input name="buyerFullName" id="buyerFullName" type="hidden" [value]="info_op.nombre">
+    <input name="responseUrl" type="hidden">
+    <input name="confirmationUrl" id="confirmationUrl" type="hidden" [value]="info_checkout.confirmationUrl">
+    <input class="button-payu" type="submit" value="Pagar mi producto">
+  </form>
+</div>
+
+<div class="overlay" *ngIf="loader">
+  <div class="center">
+    <mat-spinner color="warn"></mat-spinner>
+  </div>
+</div>
+<!--
+<div style="text-align: center;">
+    <h2>Orden de pedido #<span>{{info_op.referencia}}</span></h2>
+    <form id="form" [action]="info_checkout.action" method="post">
+        <input name="merchantId" id="merchantId" type="hidden" [value]="info_checkout.merchantId">
+        <input name="ApiKey" id="ApiKey" type="hidden" [value]="info_checkout.apiKey">
+        <input name="accountId" id="accountId" type="hidden" [value]="info_checkout.accountId">
+        <input name="description" type="hidden" value="Compra realizada en Muebles Jamar">
+        <input name="referenceCode" id="referenceCode" type="hidden" [value]="info_op.referencia">
+        <input name="amount" id="amount" type="hidden" [value]="info_op.valor">
+        <input name="tax" type="hidden" value="0">
+        <input name="taxReturnBase" type="hidden" value="0">
+        <input name="currency" type="hidden" value="COP">
+        <input name="signature" id="signature" type="hidden" [value]="info_op.signature">
+        <input name="test" id="test" type="hidden" [value]="info_checkout.test">
+        <input name="buyerEmail" id="buyerEmail" type="hidden" [value]="info_op.email">
+        <input name="buyerFullName" id="buyerFullName" type="hidden" [value]="info_op.nombre">
+        <input name="responseUrl" type="hidden">
+        <input name="confirmationUrl" id="confirmationUrl" type="hidden"
+          [value]="info_checkout.confirmationUrl">
+        <input type="image" src="https://app-vendedor-img-categorias.s3.amazonaws.com/link_pago/link_pago_payun.png"
+            style="width: 100%;" alt="Link de pago Payu">
+    </form>
+  </div>
+  
+  <div class="overlay" *ngIf="loader">
+    <div class="center">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+  
+-->

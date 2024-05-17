@@ -1,0 +1,185 @@
+.logo {
+    max-width: 160px;
+    margin-bottom: 30px;
+}
+
+.title-op {
+    margin: 3px;
+    font-family: "Lato";
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0px;
+    color: #344054;
+}
+
+.op {
+    font-family: "Lato";
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 40px;
+    letter-spacing: 0px;
+    color: #344054;
+}
+
+.text-14 {
+    font-family: "Lato";
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0px;
+    color: #344054;
+}
+
+.panel-product {
+    background: #F4F4F4;
+
+}
+
+.product {
+    background: #FFFFFF;
+    border-radius: 6px;
+    padding: 12px 12px 2px 6px;
+    margin-bottom: 3px;
+}
+
+.product-image {
+    max-height: 100px;
+    border-radius: 6px;
+}
+
+.product-name {
+    font-family: "Lato";
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 17px;
+    color: #344054;
+}
+
+.product-cantidad {
+    font-family: "Lato";
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0em;
+    color: #344054;
+}
+
+.price-product-title {
+    font-family: "Lato";
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 20px;
+    letter-spacing: 0px;
+    color: #344054;
+    margin-bottom: 2px;
+}
+
+.price-product-lista {
+    font-family: "Lato";
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0px;
+    color: #344054;
+    margin-bottom: 2px;
+    text-decoration: line-through;
+}
+
+.price-product-oferta {
+    font-family: "Lato";
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 19px;
+    letter-spacing: 0px;
+    color: #00ABB0;
+}
+
+.title-resumen {
+    font-family: "Lato";
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 20px;
+    letter-spacing: 0px;
+    color: #101828;
+    margin-bottom: 0px;
+}
+
+.price-total-title {
+    font-family: "Lato";
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0px;
+    color: #344054;
+    margin-right: 40px;
+}
+
+.price-total {
+    font-family: "Lato";
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 20px;
+    letter-spacing: 0px;
+    color: #344054;
+
+}
+
+.price-garantia {
+    font-family: "Lato";
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 20px;
+    letter-spacing: 0px;
+    color: #344054;
+}
+
+.price-transporte {
+    font-family: "Lato";
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 20px;
+    letter-spacing: 0px;
+    color: #344054;
+}
+
+.formulario {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.button-payu {
+
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    color: #FFFFFF;
+    border-style: none;
+    /* Brand primary/100 */
+    background: #D8232A;
+    border-radius: 6px;
+
+    padding: 14px 38px 14px 38px;
+}
+
+
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.overlay{
+    height:100vh;
+    width:100%;
+    background-color:rgba(0, 0, 0, 0.286);
+    z-index:    10;
+    top:        0; 
+    left:       0; 
+    position:   fixed;
+  }
